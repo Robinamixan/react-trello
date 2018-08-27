@@ -1,0 +1,12 @@
+.header {
+  background-color: gray; }
+  .header .title-box {
+    text-align: center; }
+    .header .title-box .title {
+      color: black; }
+    .header .title-box .right-header {
+      background-color: #ff0000; }
+    .header .title-box .left-header {
+      background-color: #ff5b00; }
+
+/*# sourceMappingURL=Header.css.map */
