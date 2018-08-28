@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import Ticket from '../Ticket/Ticket';
 import './Column.css';
 
 
-//TODO: Split to Tickets component
 class Column extends Component {
   render() {
     return (
@@ -28,15 +28,11 @@ class Column extends Component {
 
     for (let i = 0; i < this.props.tickets; i++) {
       column.push(
-        <div
-          className='ticket'
-          draggable="true"
-          onDragStart={this.drag}
+        <Ticket
           id={'ticket-' + this.props.number + '-' + i}
           key={'ticket-' + this.props.number + '-' + i}
-        >
-          {this.props.number + '-' + i}
-        </div>
+          text={this.props.number + '-' + i}
+        />
       )
     }
     return column;
@@ -44,10 +40,6 @@ class Column extends Component {
 
   allowDrop(ev) {
     ev.preventDefault();
-  }
-
-  drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
   }
 
   drop(ev) {
@@ -65,7 +57,5 @@ class Column extends Component {
 
   }
 }
-
-
 
 export default Column;

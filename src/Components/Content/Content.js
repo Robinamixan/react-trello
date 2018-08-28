@@ -8,16 +8,16 @@ class Content extends Component {
       <div className="content">
         <div className="container">
           <div className="row">
-            <div className="col-md-3 center">
+            <div className="col-md-3">
               <Column number="1" tickets="5" title="First Column"/>
             </div>
-            <div className="col-md-3 center">
+            <div className="col-md-3">
               <Column number="2" tickets="2" title="Second Column"/>
             </div>
-            <div className="col-md-3 center">
+            <div className="col-md-3">
               <Column number="3" tickets="3" title="Third Column"/>
             </div>
-            <div className="col-md-3 center">
+            <div className="col-md-3">
               <Column number="4" tickets="2" title="Fourth Column"/>
             </div>
           </div>

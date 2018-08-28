@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import './Header.css';
+import RestProvider from '../../Services/RestProvider/RestProvider';
+
+let rest = new RestProvider();
 
 class Header extends Component {
   render() {
@@ -14,13 +17,17 @@ class Header extends Component {
               </div>
 
               <div className="col-md-4 right-header">
-                Right!
+                <button onClick={this.newTicket}>New!</button>
               </div>
             </div>
           </div>
         </header>
       </div>
     );
+  }
+
+  newTicket() {
+    rest.addTicket();
   }
 }
 
