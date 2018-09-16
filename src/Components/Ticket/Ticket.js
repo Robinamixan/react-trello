@@ -8,16 +8,22 @@ class Ticket extends Component {
         className='ticket'
         draggable="true"
         onDragStart={this.drag}
-        id={this.props.id}
-        key={this.props.id}
+        id={'ticket-' + this.props.id}
+        key={'ticket-' + this.props.id}
       >
         {this.props.text}
       </div>
     );
   }
 
-  drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
+  drag(event) {
+    let data = {
+      id: event.target.id.replace('ticket-', ''),
+      domId: event.target.id,
+      content: document.getElementById(event.target.id).innerHTML
+    };
+
+    event.dataTransfer.setData('text', JSON.stringify(data));
   }
 }
 

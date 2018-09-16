@@ -1,60 +1,94 @@
 import React, { Component } from 'react';
 import Ticket from '../Ticket/Ticket';
 import './Column.css';
+import RestProvider from '../../Services/RestProvider/RestProvider';
+
+let rest = new RestProvider();
 
 
 class Column extends Component {
-  render() {
-    return (
-      <div className='column'>
-        <div className='column-title'>
-          {this.props.title}
-        </div>
-        <div
-          className={'column-box column-box-' + this.props.number}
-          id={'column-box-' + this.props.number}
-          onDrop={this.drop}
-          onDragOver={this.allowDrop}
-        >
+  constructor(props) {
+    super(props)
 
-          {this.createTickets()}
-        </div>
-      </div>
-    );
+    this.state = {
+      isLoaded: false,
+      cards: []
+    }
   }
 
-  createTickets() {
-    let column = [];
+  componentDidMount() {
+    rest.getColumnTickets(this.props.number)
+      .then((tickets) => {
+        this.setState({
+          isLoaded: true,
+          items: tickets
+        });
+      });
+  }
 
-    for (let i = 0; i < this.props.tickets; i++) {
-      column.push(
-        <Ticket
-          id={'ticket-' + this.props.number + '-' + i}
-          key={'ticket-' + this.props.number + '-' + i}
-          text={this.props.number + '-' + i}
-        />
-      )
+
+  render() {
+    const { error, isLoaded, items } = this.state;
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+      return <div>Loading...</div>;
+    } else {
+      return (
+        <div className='column'>
+          <div className='column-title'>
+            {this.props.title}
+          </div>
+          <div
+            className={'column-box column-box-' + this.props.number}
+            id={'column-box-' + this.props.number}
+            onDrop={this.drop}
+            onDragOver={this.allowDrop}
+          >
+            {items.map(item => (
+              <Ticket
+                id={item.id}
+                key={item.id}
+                text={item.content}
+              />
+            ))}
+
+          </div>
+        </div>
+      );
     }
-    return column;
   }
 
   allowDrop(ev) {
     ev.preventDefault();
   }
 
-  drop(ev) {
-    ev.preventDefault();
-    let data = ev.dataTransfer.getData("text");
-    let target = ev.target;
+  drop(event) {
+    event.preventDefault();
+
+    let data = JSON.parse(event.dataTransfer.getData('text'));
+    let columnId = '';
+
+    let target = event.target;
     let parent = null;
+
     if (target.classList.contains('column-box')) {
       parent = target;
-      parent.appendChild(document.getElementById(data));
+      parent.appendChild(document.getElementById(data.domId));
+      columnId = parent.id.replace('column-box-', '');
     } else {
       parent = target.closest(".ticket");
-      parent.insertAdjacentElement("afterend", document.getElementById(data));
+      parent.insertAdjacentElement("afterend", document.getElementById(data.domId));
+      columnId = target.closest(".column-box").id.replace('column-box-', '');
     }
 
+    let ticket = {
+      id: data.id,
+      idColumn: columnId,
+      content: data.content
+    }
+    console.log(ticket);
+    rest.updateTicket(ticket)
   }
 }
 
