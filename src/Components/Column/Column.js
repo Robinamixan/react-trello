@@ -11,8 +11,9 @@ class Column extends Component {
     super(props)
 
     this.state = {
+      error: false,
       isLoaded: false,
-      cards: []
+      items: []
     }
   }
 
@@ -87,7 +88,7 @@ class Column extends Component {
       idColumn: columnId,
       content: data.content
     }
-    console.log(ticket);
+
     rest.updateTicket(ticket)
   }
 }

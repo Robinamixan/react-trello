@@ -23,8 +23,9 @@ class RestProvider extends React.Component {
         }
       })
       .then(res => {
-        const data = res.data;
-        console.log(res);
+        if (res.status !== 200) {
+          console.log(res);
+        }
       })
   }
 
@@ -42,13 +43,14 @@ class RestProvider extends React.Component {
       }
     })
       .then(res => {
-        const data = res.data;
-        console.log(res);
+        if (res.status !== 200) {
+          console.log(res);
+        }
       })
   }
 
   getTickets() {
-    let url = this.url_api + '/rest/api/cards/get';
+    let url = this.url_api + '/rest/api/cards';
     let tickets = [];
 
     axios.get(url, {
@@ -64,7 +66,7 @@ class RestProvider extends React.Component {
   }
 
   getColumnTickets(id) {
-    let url = this.url_api + 'rest/api/cards/get/column/' + id;
+    let url = this.url_api + 'rest/api/cards/column/' + id;
     let tickets = [];
 
     return axios.get(url, {

@@ -9,16 +9,16 @@ class Content extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-3">
-              <Column number="0" title="First Column"/>
+              <Column number="1" title="First Column"/>
             </div>
             <div className="col-md-3">
-              <Column number="1" title="Second Column"/>
+              <Column number="2" title="Second Column"/>
             </div>
             <div className="col-md-3">
-              <Column number="2" title="Third Column"/>
+              <Column number="3" title="Third Column"/>
             </div>
             <div className="col-md-3">
-              <Column number="3" title="Fourth Column"/>
+              <Column number="4" title="Fourth Column"/>
             </div>
           </div>
         </div>
