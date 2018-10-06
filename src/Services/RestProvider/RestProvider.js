@@ -11,7 +11,7 @@ class RestProvider extends React.Component {
 
   addTicket() {
     let idColumn = 2;
-    let url = this.url_api + '/rest/api/cards/add';
+    let url = this.url_api + 'rest/api/cards/add';
     let data = JSON.stringify({
       idColumn: idColumn,
       content: 'api-3'
@@ -30,7 +30,7 @@ class RestProvider extends React.Component {
   }
 
   updateTicket(ticket) {
-    let url = this.url_api + '/rest/api/cards/update';
+    let url = this.url_api + 'rest/api/cards/update';
     let data = JSON.stringify({
       idTicket: ticket.id,
       idColumn: ticket.idColumn,
@@ -50,7 +50,7 @@ class RestProvider extends React.Component {
   }
 
   getTickets() {
-    let url = this.url_api + '/rest/api/cards';
+    let url = this.url_api + 'rest/api/cards';
     let tickets = [];
 
     axios.get(url, {
@@ -76,7 +76,12 @@ class RestProvider extends React.Component {
     })
       .then(res => {
         tickets = res.data;
-        return tickets;
+        if( typeof tickets.error !== 'undefined' ){
+          console.log(res);
+          return [];
+        } else {
+          return tickets;
+        }
       })
   }
 
@@ -89,7 +94,6 @@ class RestProvider extends React.Component {
       }
     })
       .then(res => {
-        const persons = res.data;
         console.log(res);
       })
   }
