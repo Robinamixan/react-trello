@@ -37,6 +37,8 @@ class App extends Component {
           onShowPopup={this.showPopup}
         />
         <Content
+          onShowPopup={this.showPopup}
+          onClosePopup={this.closePopup}
         />
       </div>
     );

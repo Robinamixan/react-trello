@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "",
-"sources": [],
+"mappings": "AAAA,OAAQ;EACN,OAAO,EAAE,GAAG;EACZ,MAAM,EAAE,KAAK;EAEb,MAAM,EAAE,eAAe;EACvB,aAAa,EAAE,IAAI;EAEnB,gBAAgB,EAAE,OAAO;EAEzB,qBAAc;IACZ,UAAU,EAAE,KAAK",
+"sources": ["Tickets.scss"],
 "names": [],
 "file": "Tickets.css"
 }

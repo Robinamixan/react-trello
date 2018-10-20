@@ -9,16 +9,36 @@ class Content extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-3">
-              <Column number="1" title="First Column"/>
+              <Column
+                idColumn="1"
+                title="First Column"
+                onShowPopup={this.props.onShowPopup}
+                onClosePopup={this.props.onClosePopup}
+              />
             </div>
             <div className="col-md-3">
-              <Column number="2" title="Second Column"/>
+              <Column
+                idColumn="2"
+                title="Second Column"
+                onShowPopup={this.props.onShowPopup}
+                onClosePopup={this.props.onClosePopup}
+              />
             </div>
             <div className="col-md-3">
-              <Column number="3" title="Third Column"/>
+              <Column
+                idColumn="3"
+                title="Third Column"
+                onShowPopup={this.props.onShowPopup}
+                onClosePopup={this.props.onClosePopup}
+              />
             </div>
             <div className="col-md-3">
-              <Column number="4" title="Fourth Column"/>
+              <Column
+                idColumn="4"
+                title="Fourth Column"
+                onShowPopup={this.props.onShowPopup}
+                onClosePopup={this.props.onClosePopup}
+              />
             </div>
           </div>
         </div>

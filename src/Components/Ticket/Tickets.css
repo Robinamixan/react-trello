@@ -1,3 +1,10 @@
-
+.ticket {
+  padding: 5px;
+  margin: 0 3px;
+  border: 2px solid black;
+  border-radius: 10px;
+  background-color: #ffffff; }
+  .ticket .manage-panel {
+    text-align: right; }
 
 /*# sourceMappingURL=Tickets.css.map */

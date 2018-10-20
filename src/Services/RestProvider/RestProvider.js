@@ -2,6 +2,9 @@ import React from '../../../node_modules/react/index';
 import axios from 'axios'
 
 
+let urlApi = 'http://react-rest.loc/'
+
+
 class RestProvider extends React.Component {
   constructor(){
     super();
@@ -29,13 +32,9 @@ class RestProvider extends React.Component {
       })
   }
 
-  updateTicket(ticket) {
-    let url = this.url_api + 'rest/api/cards/update';
-    let data = JSON.stringify({
-      idTicket: ticket.id,
-      idColumn: ticket.idColumn,
-      content: ticket.content
-    })
+  static updateTicket(ticket) {
+    let url = urlApi + 'rest/api/cards/update';
+    let data = JSON.stringify(ticket)
 
     axios.post(url, data, {
       headers: {

@@ -1,17 +1,57 @@
 import React, { Component } from 'react';
 import './Tickets.css';
+import EditForm from '../../Forms/TicketEditForm/TicketEditForm'
+import RestProvider from '../../Services/RestProvider/RestProvider';
 
 class Ticket extends Component {
+  states = {
+    text: '',
+    id: '',
+    idColumn: ''
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      text: this.props.text,
+      id: this.props.id,
+    }
+  }
+
+  changeText = (newText) => {
+    this.setState({
+      text: newText,
+    });
+
+    let ticket = {
+      idTicket: this.state.id,
+      content: newText
+    }
+
+    RestProvider.updateTicket(ticket)
+  }
+
   render() {
     return (
       <div
         className='ticket'
         draggable="true"
         onDragStart={this.drag}
-        id={'ticket-' + this.props.id}
-        key={'ticket-' + this.props.id}
+        id={'ticket-' + this.state.id}
+        key={'ticket-' + this.state.id}
       >
-        {this.props.text}
+        <div className={'manage-panel'}>
+          <button onClick={() => this.props.onShowPopup(
+            <EditForm
+              onChangeEvent={this.changeText}
+              onClosePopup={this.props.onClosePopup}
+            />
+          )}>Edit</button>
+        </div>
+        <div className={'main-content'}>
+          {this.state.text}
+        </div>
       </div>
     );
   }

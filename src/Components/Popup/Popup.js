@@ -14,7 +14,7 @@ class Popup extends Component {
     const popupBlock = document.getElementById('popup-contain');
     // Check if there is component in parents or children
     if (!e.path.includes(popupBlock)) {
-      this.props.onClosePopup(null);
+      this.props.onClosePopup();
     }
   }
 
@@ -22,8 +22,15 @@ class Popup extends Component {
     return (
       <div id={'popup-main'}>
         <div id={'popup-contain'}>
-          <button onClick={() => this.props.onClosePopup(null)}>Close</button>
-          POPUP
+          <div className={'popup-header'}>
+            <button
+              className={'btn btn-default'}
+              onClick={() => this.props.onClosePopup()}
+            >Close</button>
+          </div>
+          <div className={'popup-container'}>
+            {this.props.popupForm}
+          </div>
         </div>
       </div>
     );

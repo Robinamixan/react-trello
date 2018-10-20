@@ -18,7 +18,7 @@ class Column extends Component {
   }
 
   componentDidMount() {
-    rest.getColumnTickets(this.props.number)
+    rest.getColumnTickets(this.props.idColumn)
       .then((tickets) => {
         this.setState({
           isLoaded: true,
@@ -41,8 +41,8 @@ class Column extends Component {
             {this.props.title}
           </div>
           <div
-            className={'column-box column-box-' + this.props.number}
-            id={'column-box-' + this.props.number}
+            className={'column-box column-box-' + this.props.idColumn}
+            id={'column-box-' + this.props.idColumn}
             onDrop={this.drop}
             onDragOver={this.allowDrop}
           >
@@ -51,6 +51,8 @@ class Column extends Component {
                 id={item.id}
                 key={item.id}
                 text={item.content}
+                onShowPopup={this.props.onShowPopup}
+                onClosePopup={this.props.onClosePopup}
               />
             ))}
 
@@ -64,32 +66,27 @@ class Column extends Component {
     ev.preventDefault();
   }
 
-  drop(event) {
+  drop = (event) => {
     event.preventDefault();
 
     let data = JSON.parse(event.dataTransfer.getData('text'));
-    let columnId = '';
-
     let target = event.target;
     let parent = null;
 
     if (target.classList.contains('column-box')) {
       parent = target;
       parent.appendChild(document.getElementById(data.domId));
-      columnId = parent.id.replace('column-box-', '');
     } else {
       parent = target.closest(".ticket");
       parent.insertAdjacentElement("afterend", document.getElementById(data.domId));
-      columnId = target.closest(".column-box").id.replace('column-box-', '');
     }
 
     let ticket = {
-      id: data.id,
-      idColumn: columnId,
-      content: data.content
+      idTicket: data.id,
+      idColumn: this.props.idColumn,
     }
 
-    rest.updateTicket(ticket)
+    RestProvider.updateTicket(ticket)
   }
 }
 
