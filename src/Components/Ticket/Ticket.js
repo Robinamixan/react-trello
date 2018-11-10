@@ -5,6 +5,7 @@ import RestProvider from '../../Services/RestProvider/RestProvider';
 
 class Ticket extends Component {
   states = {
+    title: '',
     text: '',
     id: '',
     idColumn: ''
@@ -14,19 +15,22 @@ class Ticket extends Component {
     super(props)
 
     this.state = {
+      title: this.props.title,
       text: this.props.text,
       id: this.props.id,
     }
   }
 
-  changeText = (newText) => {
+  changeText = (newText, newTitle) => {
     this.setState({
       text: newText,
+      title: newTitle,
     });
 
     let ticket = {
       idTicket: this.state.id,
-      content: newText
+      title: newTitle,
+      content: newText,
     }
 
     RestProvider.updateTicket(ticket)
@@ -42,10 +46,14 @@ class Ticket extends Component {
         key={'ticket-' + this.state.id}
       >
         <div className={'manage-panel'}>
+          <span>{this.state.title}</span>
+
           <button onClick={() => this.props.onShowPopup(
             <EditForm
               onChangeEvent={this.changeText}
               onClosePopup={this.props.onClosePopup}
+              currentTextValue={this.state.text}
+              currentTitleValue={this.state.title}
             />
           )}>Edit</button>
         </div>

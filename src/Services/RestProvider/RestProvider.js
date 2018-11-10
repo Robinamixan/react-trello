@@ -48,24 +48,8 @@ class RestProvider extends React.Component {
       })
   }
 
-  getTickets() {
-    let url = this.url_api + 'rest/api/cards';
-    let tickets = [];
-
-    axios.get(url, {
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-      .then(res => {
-        tickets = res.data;
-        console.log(res);
-        return tickets;
-      })
-  }
-
-  getColumnTickets(id) {
-    let url = this.url_api + 'rest/api/cards/column/' + id;
+  static getColumnTickets(id) {
+    let url = urlApi + 'rest/api/column/' + id + '/cards';
     let tickets = [];
 
     return axios.get(url, {

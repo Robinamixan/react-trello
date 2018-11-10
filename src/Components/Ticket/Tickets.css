@@ -5,6 +5,13 @@
   border-radius: 10px;
   background-color: #ffffff; }
   .ticket .manage-panel {
-    text-align: right; }
+    padding-right: 5px;
+    padding-left: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end; }
+  .ticket .main-content {
+    border-top: 1px solid black;
+    margin-top: 3px; }
 
 /*# sourceMappingURL=Tickets.css.map */

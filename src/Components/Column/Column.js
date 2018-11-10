@@ -3,8 +3,6 @@ import Ticket from '../Ticket/Ticket';
 import './Column.css';
 import RestProvider from '../../Services/RestProvider/RestProvider';
 
-let rest = new RestProvider();
-
 
 class Column extends Component {
   constructor(props) {
@@ -18,7 +16,7 @@ class Column extends Component {
   }
 
   componentDidMount() {
-    rest.getColumnTickets(this.props.idColumn)
+    RestProvider.getColumnTickets(this.props.idColumn)
       .then((tickets) => {
         this.setState({
           isLoaded: true,
@@ -50,6 +48,7 @@ class Column extends Component {
               <Ticket
                 id={item.id}
                 key={item.id}
+                title={item.title}
                 text={item.content}
                 onShowPopup={this.props.onShowPopup}
                 onClosePopup={this.props.onClosePopup}

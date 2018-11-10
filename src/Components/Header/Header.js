@@ -18,7 +18,6 @@ class Header extends Component {
 
               <div className="col-md-4 right-header">
                 <button onClick={this.newTicket}>New!</button>
-                <button onClick={this.getTicket}>GET!</button>
                 <button onClick={() => this.props.onShowPopup('test')}>SHOW!</button>
               </div>
             </div>
@@ -30,10 +29,6 @@ class Header extends Component {
 
   newTicket() {
     rest.addTicket();
-  }
-
-  getTicket() {
-    rest.getTickets();
   }
 }
 
