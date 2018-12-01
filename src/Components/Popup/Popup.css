@@ -11,5 +11,7 @@
 #popup-contain {
   background-color: #ffffff;
   padding: 5px; }
+  #popup-contain .popup-header {
+    text-align: right; }
 
 /*# sourceMappingURL=Popup.css.map */

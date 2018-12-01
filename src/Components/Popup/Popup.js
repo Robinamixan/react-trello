@@ -24,9 +24,9 @@ class Popup extends Component {
         <div id={'popup-contain'}>
           <div className={'popup-header'}>
             <button
-              className={'btn btn-default'}
+              className={'btn btn-default icon-close'}
               onClick={() => this.props.onClosePopup()}
-            >Close</button>
+            ></button>
           </div>
           <div className={'popup-container'}>
             {this.props.popupForm}

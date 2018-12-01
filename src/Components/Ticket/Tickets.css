@@ -1,6 +1,6 @@
 .ticket {
   padding: 5px;
-  margin: 0 3px;
+  margin: 3px 3px;
   border: 2px solid black;
   border-radius: 10px;
   background-color: #ffffff; }
@@ -10,8 +10,15 @@
     display: flex;
     justify-content: space-between;
     align-items: end; }
+    .ticket .manage-panel .ticket-title {
+      text-align: left; }
+    .ticket .manage-panel .edit-button {
+      visibility: hidden; }
   .ticket .main-content {
     border-top: 1px solid black;
     margin-top: 3px; }
+
+.ticket:hover > .manage-panel > .edit-button {
+  visibility: visible; }
 
 /*# sourceMappingURL=Tickets.css.map */

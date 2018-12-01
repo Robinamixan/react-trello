@@ -2,4 +2,25 @@ body, h1 {
   margin: 0;
   padding: 0; }
 
-/*# sourceMappingURL=index.css.map */
+.icon-edit {
+  background: url(../../Images/edit-icon.png) no-repeat scroll center center transparent;
+  background-size: cover;
+  height: 19px;
+  width: 19px;
+  border: none;
+  padding-left: 13px;
+  margin-left: 4px; }
+
+.icon-close {
+  background: url(../../Images/close-icon.png) no-repeat scroll center center transparent;
+  background-size: cover;
+  height: 19px;
+  width: 19px;
+  border: none;
+  padding-left: 13px;
+  margin-left: 4px; }
+
+.icon-edit:hover, .icon-close:hover {
+  cursor: pointer; }
+
+/*# sourceMappingURL=App.css.map */

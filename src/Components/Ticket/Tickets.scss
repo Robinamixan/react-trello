@@ -1,6 +1,6 @@
 .ticket {
   padding: 5px;
-  margin: 0 3px;
+  margin: 3px 3px;
 
   border: 2px solid black;
   border-radius: 10px;
@@ -13,6 +13,16 @@
     display: flex;
     justify-content: space-between;
     align-items: end;
+
+    .ticket-title {
+      text-align: left;
+    }
+
+    .edit-button {
+      visibility: hidden;
+    }
+
+
   }
 
   .main-content {
@@ -21,5 +31,8 @@
   }
 }
 
+.ticket:hover > .manage-panel > .edit-button {
+  visibility: visible;
+}
 
 

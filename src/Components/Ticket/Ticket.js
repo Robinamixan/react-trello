@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Tickets.css';
-import EditForm from '../../Forms/TicketEditForm/TicketEditForm'
+import TicketForm from '../../Forms/TicketForm/TicketForm';
 import RestProvider from '../../Services/RestProvider/RestProvider';
 
 class Ticket extends Component {
@@ -14,17 +14,24 @@ class Ticket extends Component {
   constructor(props) {
     super(props)
 
+    let visibleText = this.props.text;
+
+    if (visibleText.length > 100) {
+      visibleText = visibleText.substring(0, 100) + '...'
+    }
+
     this.state = {
       title: this.props.title,
       text: this.props.text,
+      visibleText: visibleText,
       id: this.props.id,
     }
   }
 
-  changeText = (newText, newTitle) => {
+  changeText = (newTitle, newText) => {
     this.setState({
-      text: newText,
       title: newTitle,
+      text: newText,
     });
 
     let ticket = {
@@ -33,6 +40,7 @@ class Ticket extends Component {
       content: newText,
     }
 
+    console.log(ticket)
     RestProvider.updateTicket(ticket)
   }
 
@@ -46,19 +54,22 @@ class Ticket extends Component {
         key={'ticket-' + this.state.id}
       >
         <div className={'manage-panel'}>
-          <span>{this.state.title}</span>
+          <span className={'ticket-title'}>{this.state.title}</span>
 
-          <button onClick={() => this.props.onShowPopup(
-            <EditForm
-              onChangeEvent={this.changeText}
+          <button
+            className={'edit-button icon-edit'}
+            onClick={() => this.props.onShowPopup(
+            <TicketForm
+              onSubmitEvent={this.changeText}
               onClosePopup={this.props.onClosePopup}
-              currentTextValue={this.state.text}
-              currentTitleValue={this.state.title}
+              titleValue={this.state.title}
+              textValue={this.state.text}
+              buttonText='Save'
             />
-          )}>Edit</button>
+          )}></button>
         </div>
         <div className={'main-content'}>
-          {this.state.text}
+          {this.state.visibleText}
         </div>
       </div>
     );

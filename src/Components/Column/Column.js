@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Ticket from '../Ticket/Ticket';
 import './Column.css';
 import RestProvider from '../../Services/RestProvider/RestProvider';
+import TicketForm from '../../Forms/TicketForm/TicketForm';
 
 
 class Column extends Component {
@@ -54,7 +55,16 @@ class Column extends Component {
                 onClosePopup={this.props.onClosePopup}
               />
             ))}
-
+            <button onClick={() => this.props.onShowPopup(
+              <TicketForm
+                onSubmitEvent={this.createTicket}
+                onClosePopup={this.props.onClosePopup}
+                textValue=''
+                titleValue=''
+                idColumn={this.props.idColumn}
+                buttonText='Save'
+              />
+            )}>Add ticket</button>
           </div>
         </div>
       );
@@ -86,6 +96,16 @@ class Column extends Component {
     }
 
     RestProvider.updateTicket(ticket)
+  }
+
+  createTicket = (title, content) => {
+
+    let ticket = {
+      title: title,
+      content: content,
+    }
+
+    RestProvider.addTicket(ticket, this.props.idColumn);
   }
 }
 

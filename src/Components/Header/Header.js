@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './Header.css';
 import RestProvider from '../../Services/RestProvider/RestProvider';
 
-let rest = new RestProvider();
 
 class Header extends Component {
   render() {
@@ -13,12 +12,12 @@ class Header extends Component {
           <div className="container">
             <div className="row">
               <div className="col-md-8 left-header">
-                Left!
+                <button onClick={this.newColumn}>New Column</button>
+                <button onClick={this.refresh}>Refresh Board</button>
               </div>
 
               <div className="col-md-4 right-header">
-                <button onClick={this.newTicket}>New!</button>
-                <button onClick={() => this.props.onShowPopup('test')}>SHOW!</button>
+                <button onClick={() => this.props.onShowPopup('test')}>SHOW POPUP</button>
               </div>
             </div>
           </div>
@@ -27,8 +26,12 @@ class Header extends Component {
     );
   }
 
-  newTicket() {
-    rest.addTicket();
+  newColumn() {
+    RestProvider.addColumn();
+  }
+
+  refresh = () => {
+    this.props.onRefreshBoard();
   }
 }
 
