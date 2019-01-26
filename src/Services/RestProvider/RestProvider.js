@@ -2,10 +2,15 @@ import React from '../../../node_modules/react/index';
 import axios from 'axios'
 
 
-let urlApi = 'http://react-rest.loc/'
+let urlApi = 'http://react-rest.loc/';
 
 
 class RestProvider extends React.Component {
+  static WEIGHT_CHANGE = '1';
+  static WEIGHT_MOVE_UP = 'up';
+  static WEIGHT_MOVE_DOWN = 'down';
+  static STAGE_CHANGE = '2';
+
   constructor(){
     super();
 
@@ -46,6 +51,30 @@ class RestProvider extends React.Component {
         console.log(res);
         if (res.status !== 200) {
           console.log(res);
+        }
+      })
+  }
+
+  static updateTicketPosition(idTicket, actionType, action, idColumn = null) {
+    let url = urlApi + 'rest/api/cards/update/position';
+    let data = JSON.stringify({
+      idTicket: idTicket,
+      actionType: actionType,
+      action: action,
+      idColumn: idColumn,
+    })
+
+    return axios.post(url, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+      .then(res => {
+        if (res.status !== 200) {
+          console.log(res);
+          return false;
+        } else {
+          return true;
         }
       })
   }

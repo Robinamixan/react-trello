@@ -12,12 +12,15 @@ class Column extends Component {
     this.state = {
       error: false,
       isLoaded: false,
-      items: []
+      items: [],
+      id: this.props.idColumn,
     }
+
+    this.props.getStage(this)
   }
 
   componentDidMount() {
-    RestProvider.getColumnTickets(this.props.idColumn)
+    RestProvider.getColumnTickets(this.state.id)
       .then((tickets) => {
         this.setState({
           isLoaded: true,
@@ -40,8 +43,8 @@ class Column extends Component {
             {this.props.title}
           </div>
           <div
-            className={'column-box column-box-' + this.props.idColumn}
-            id={'column-box-' + this.props.idColumn}
+            className={'column-box column-box-' + this.state.id}
+            id={'column-box-' + this.state.id}
             onDrop={this.drop}
             onDragOver={this.allowDrop}
           >
@@ -51,19 +54,28 @@ class Column extends Component {
                 key={item.id}
                 title={item.title}
                 text={item.content}
+                column={this}
+                selected={this.props.selected}
                 setSelected={this.props.setSelected}
                 onShowPopup={this.props.onShowPopup}
                 onClosePopup={this.props.onClosePopup}
                 deleteTicket={this.deleteTicket}
               />
             ))}
+          </div>
+          <div
+            className={'column-footer column-footer-' + this.state.id}
+            id={'column-box-' + this.state.id}
+            onDrop={this.drop}
+            onDragOver={this.allowDrop}
+          >
             <button onClick={() => this.props.onShowPopup(
               <TicketForm
                 onSubmitEvent={this.createTicket}
                 onClosePopup={this.props.onClosePopup}
                 textValue=''
                 titleValue=''
-                idColumn={this.props.idColumn}
+                idColumn={this.state.id}
                 buttonText='Save'
               />
             )}>Add ticket</button>
@@ -106,13 +118,13 @@ class Column extends Component {
       content: content,
     }
 
-    RestProvider.addTicket(ticket, this.props.idColumn)
+    RestProvider.addTicket(ticket, this.state.id)
       .then(() => {
         this.setState({
           isLoaded: false,
         });
 
-        RestProvider.getColumnTickets(this.props.idColumn)
+        RestProvider.getColumnTickets(this.state.id)
           .then((tickets) => {
             this.setState({
               isLoaded: true,
@@ -133,7 +145,7 @@ class Column extends Component {
           isLoaded: false,
         });
 
-        RestProvider.getColumnTickets(this.props.idColumn)
+        RestProvider.getColumnTickets(this.state.id)
           .then((tickets) => {
             this.setState({
               isLoaded: true,

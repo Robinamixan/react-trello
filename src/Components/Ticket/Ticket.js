@@ -8,7 +8,7 @@ class Ticket extends Component {
     title: '',
     text: '',
     id: '',
-    idColumn: '',
+    column: '',
     selected: false,
   }
 
@@ -16,10 +16,18 @@ class Ticket extends Component {
     super(props)
 
     let visibleText = this.props.text;
+    let selected = false;
     this.selectTicket = this.selectTicket.bind(this);
 
     if (visibleText.length > 100) {
-      visibleText = visibleText.substring(0, 100) + '...'
+      visibleText = visibleText.substring(0, 100) + '...';
+    }
+
+    if (this.props.selected) {
+      console.log(this.props.selected.state.id === this.props.id);
+      if (this.props.selected.state.id === this.props.id) {
+        selected = true;
+      }
     }
 
     this.state = {
@@ -27,7 +35,8 @@ class Ticket extends Component {
       text: this.props.text,
       visibleText: visibleText,
       id: this.props.id,
-      selected: false,
+      selected: selected,
+      column: this.props.column,
     }
   }
 
@@ -98,9 +107,9 @@ class Ticket extends Component {
       idTicket: this.state.id,
       title: newTitle,
       content: newText,
-    }
+    };
 
-    RestProvider.updateTicket(ticket)
+    RestProvider.updateTicket(ticket);
   }
 
   selectTicket(event) {
