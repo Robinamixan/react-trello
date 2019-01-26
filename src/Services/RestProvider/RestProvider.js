@@ -20,7 +20,7 @@ class RestProvider extends React.Component {
       content: ticket.content,
     })
 
-    axios.post(url, data, {
+    return axios.post(url, data, {
         headers: {
           'Content-Type': 'application/json',
         }
@@ -29,6 +29,7 @@ class RestProvider extends React.Component {
         if (res.status !== 200) {
           console.log(res);
         }
+        return [];
       })
   }
 
@@ -46,6 +47,23 @@ class RestProvider extends React.Component {
         if (res.status !== 200) {
           console.log(res);
         }
+      })
+  }
+
+  static deleteTicket(ticket={}) {
+    let url = urlApi + 'rest/api/cards/delete';
+    let data = JSON.stringify(ticket)
+
+    return axios.post(url, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+      .then(res => {
+        if (res.status !== 200) {
+          console.log(res);
+        }
+        return [];
       })
   }
 

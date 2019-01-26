@@ -28,7 +28,7 @@ class Column extends Component {
 
 
   render() {
-    const { error, isLoaded, items } = this.state;
+    const {error, isLoaded, items} = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -51,8 +51,10 @@ class Column extends Component {
                 key={item.id}
                 title={item.title}
                 text={item.content}
+                setSelected={this.props.setSelected}
                 onShowPopup={this.props.onShowPopup}
                 onClosePopup={this.props.onClosePopup}
+                deleteTicket={this.deleteTicket}
               />
             ))}
             <button onClick={() => this.props.onShowPopup(
@@ -99,13 +101,46 @@ class Column extends Component {
   }
 
   createTicket = (title, content) => {
-
     let ticket = {
       title: title,
       content: content,
     }
 
-    RestProvider.addTicket(ticket, this.props.idColumn);
+    RestProvider.addTicket(ticket, this.props.idColumn)
+      .then(() => {
+        this.setState({
+          isLoaded: false,
+        });
+
+        RestProvider.getColumnTickets(this.props.idColumn)
+          .then((tickets) => {
+            this.setState({
+              isLoaded: true,
+              items: tickets
+            });
+          });
+      });
+  }
+
+  deleteTicket = (idTicket) => {
+    let ticket = {
+      idTicket: idTicket,
+    }
+
+    RestProvider.deleteTicket(ticket)
+      .then(() => {
+        this.setState({
+          isLoaded: false,
+        });
+
+        RestProvider.getColumnTickets(this.props.idColumn)
+          .then((tickets) => {
+            this.setState({
+              isLoaded: true,
+              items: tickets
+            });
+          });
+      });
   }
 }
 

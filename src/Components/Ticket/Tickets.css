@@ -21,4 +21,7 @@
 .ticket:hover > .manage-panel > .edit-button {
   visibility: visible; }
 
+.ticket.selected {
+  border: 3px solid limegreen; }
+
 /*# sourceMappingURL=Tickets.css.map */

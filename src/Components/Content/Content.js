@@ -10,11 +10,14 @@ class Content extends Component {
     this.state = {
       error: false,
       isLoaded: false,
-      stages: []
+      stages: [],
+      selected: null
     }
   }
 
   componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+
     RestProvider.getColumns()
       .then((stages) => {
         this.setState({
@@ -22,6 +25,39 @@ class Content extends Component {
           stages: stages
         });
       });
+  }
+
+  setSelected = (newElement) => {
+    let currentElement = this.state.selectedElement;
+
+    if (currentElement && currentElement.state.selected) {
+      currentElement.unselectTicket();
+    }
+
+    if (currentElement === newElement) {
+      this.setState({
+        selectedElement: false
+      });
+    } else {
+      this.setState({
+        selectedElement: newElement
+      });
+    }
+  }
+
+  handleKeyDown = (event) => {
+    let currentSelect = this.state.selectedElement;
+    if (currentSelect) {
+      switch(event.key) {
+        case 'ArrowUp':
+          console.log(event.key);
+
+          break;
+        default:
+          break;
+      }
+    }
+
   }
 
   render() {
@@ -32,7 +68,7 @@ class Content extends Component {
       return <div>Loading...</div>;
     } else {
       return (
-        <div className="content">
+        <div className="content" onKeyDown={this.handleKeyPress}>
           <div className="container">
             <div className="row">
               {stages.map(stage => (
@@ -42,6 +78,7 @@ class Content extends Component {
                     title={stage.title}
                     onShowPopup={this.props.onShowPopup}
                     onClosePopup={this.props.onClosePopup}
+                    setSelected={this.setSelected}
                   />
                 </div>
               ))}

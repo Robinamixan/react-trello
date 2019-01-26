@@ -8,13 +8,15 @@ class Ticket extends Component {
     title: '',
     text: '',
     id: '',
-    idColumn: ''
+    idColumn: '',
+    selected: false,
   }
 
   constructor(props) {
     super(props)
 
     let visibleText = this.props.text;
+    this.selectTicket = this.selectTicket.bind(this);
 
     if (visibleText.length > 100) {
       visibleText = visibleText.substring(0, 100) + '...'
@@ -25,33 +27,32 @@ class Ticket extends Component {
       text: this.props.text,
       visibleText: visibleText,
       id: this.props.id,
+      selected: false,
     }
   }
 
-  changeText = (newTitle, newText) => {
-    this.setState({
-      title: newTitle,
-      text: newText,
-    });
+  getClasses() {
+    let classNames = '';
 
-    let ticket = {
-      idTicket: this.state.id,
-      title: newTitle,
-      content: newText,
+    classNames += ' ticket';
+
+    if (this.state.selected) {
+      classNames += ' selected';
     }
 
-    console.log(ticket)
-    RestProvider.updateTicket(ticket)
+    return classNames;
   }
 
   render() {
+    let ticketClasses = this.getClasses();
     return (
       <div
-        className='ticket'
+        className={ticketClasses}
         draggable="true"
         onDragStart={this.drag}
         id={'ticket-' + this.state.id}
         key={'ticket-' + this.state.id}
+        onClick={this.selectTicket}
       >
         <div className={'manage-panel'}>
           <span className={'ticket-title'}>{this.state.title}</span>
@@ -60,8 +61,10 @@ class Ticket extends Component {
             className={'edit-button icon-edit'}
             onClick={() => this.props.onShowPopup(
             <TicketForm
-              onSubmitEvent={this.changeText}
+              onSaveEvent={this.changeText}
+              onDeleteEvent={this.props.deleteTicket}
               onClosePopup={this.props.onClosePopup}
+              idValue={this.state.id}
               titleValue={this.state.title}
               textValue={this.state.text}
               buttonText='Save'
@@ -83,6 +86,37 @@ class Ticket extends Component {
     };
 
     event.dataTransfer.setData('text', JSON.stringify(data));
+  }
+
+  changeText = (newTitle, newText) => {
+    this.setState({
+      title: newTitle,
+      text: newText,
+    });
+
+    let ticket = {
+      idTicket: this.state.id,
+      title: newTitle,
+      content: newText,
+    }
+
+    RestProvider.updateTicket(ticket)
+  }
+
+  selectTicket(event) {
+    let ticket = event.target.closest(".ticket");
+
+    this.setState({
+      selected: !this.state.selected,
+    });
+
+    this.props.setSelected(this);
+  }
+
+  unselectTicket() {
+    this.setState({
+      selected: false,
+    });
   }
 }
 

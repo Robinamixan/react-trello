@@ -7,14 +7,7 @@ import './App.css';
 class App extends Component {
   state = {
     showPopup: false,
-    boardKey: 1,
     popupForm: null
-  }
-
-  refreshBoard = () => {
-    this.setState({
-      boardKey: this.state.boardKey + 1
-    });
   }
 
   showPopup = (form) => {
@@ -42,17 +35,12 @@ class App extends Component {
 
         <Header
           onShowPopup={this.showPopup}
-          onRefreshBoard={this.refreshBoard}
         />
 
-        { this.state.boardKey &&
-          <Content
-            onShowPopup={this.showPopup}
-            onClosePopup={this.closePopup}
-            state={this.state.boardKey}
-          />
-        }
-
+        <Content
+          onShowPopup={this.showPopup}
+          onClosePopup={this.closePopup}
+        />
       </div>
     );
   }

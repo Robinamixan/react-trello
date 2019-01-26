@@ -13,7 +13,6 @@ class Header extends Component {
             <div className="row">
               <div className="col-md-8 left-header">
                 <button onClick={this.newColumn}>New Column</button>
-                <button onClick={this.refresh}>Refresh Board</button>
               </div>
 
               <div className="col-md-4 right-header">
@@ -28,10 +27,6 @@ class Header extends Component {
 
   newColumn() {
     RestProvider.addColumn();
-  }
-
-  refresh = () => {
-    this.props.onRefreshBoard();
   }
 }
 
