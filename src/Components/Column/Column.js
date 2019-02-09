@@ -16,10 +16,14 @@ class Column extends Component {
       id: this.props.idColumn,
     }
 
-    this.props.getStage(this)
+    this.props.setStage(this)
   }
 
   componentDidMount() {
+    this.getTickets();
+  }
+
+  getTickets() {
     RestProvider.getColumnTickets(this.state.id)
       .then((tickets) => {
         this.setState({
@@ -28,7 +32,6 @@ class Column extends Component {
         });
       });
   }
-
 
   render() {
     const {error, isLoaded, items} = this.state;
@@ -66,8 +69,6 @@ class Column extends Component {
           <div
             className={'column-footer column-footer-' + this.state.id}
             id={'column-box-' + this.state.id}
-            onDrop={this.drop}
-            onDragOver={this.allowDrop}
           >
             <button onClick={() => this.props.onShowPopup(
               <TicketForm
@@ -91,25 +92,17 @@ class Column extends Component {
 
   drop = (event) => {
     event.preventDefault();
+    let data = JSON.parse(event.dataTransfer.getData('data'));
 
-    let data = JSON.parse(event.dataTransfer.getData('text'));
-    let target = event.target;
-    let parent = null;
+    let ticketId = data.id;
+    let oldStageId = data.stageId;
+    let newStageId = this.props.idColumn;
 
-    if (target.classList.contains('column-box')) {
-      parent = target;
-      parent.appendChild(document.getElementById(data.domId));
-    } else {
-      parent = target.closest(".ticket");
-      parent.insertAdjacentElement("afterend", document.getElementById(data.domId));
+    if (oldStageId !== newStageId) {
+      this.props.setMoveDuplicate(data.id, newStageId);
+
+      this.props.updateTicketColumn(ticketId, newStageId, oldStageId);
     }
-
-    let ticket = {
-      idTicket: data.id,
-      idColumn: this.props.idColumn,
-    }
-
-    RestProvider.updateTicket(ticket)
   }
 
   createTicket = (title, content) => {

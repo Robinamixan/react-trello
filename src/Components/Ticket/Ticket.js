@@ -41,9 +41,7 @@ class Ticket extends Component {
   }
 
   getClasses() {
-    let classNames = '';
-
-    classNames += ' ticket';
+    let classNames = 'ticket';
 
     if (this.state.selected) {
       classNames += ' selected';
@@ -87,14 +85,14 @@ class Ticket extends Component {
     );
   }
 
-  drag(event) {
+  drag = (event) => {
     let data = {
       id: event.target.id.replace('ticket-', ''),
-      domId: event.target.id,
-      content: document.getElementById(event.target.id).innerHTML
+      content: document.getElementById(event.target.id).innerHTML,
+      stageId: this.state.column.state.id,
     };
 
-    event.dataTransfer.setData('text', JSON.stringify(data));
+    event.dataTransfer.setData('data', JSON.stringify(data));
   }
 
   changeText = (newTitle, newText) => {

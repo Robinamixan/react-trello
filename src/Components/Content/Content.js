@@ -28,13 +28,19 @@ class Content extends Component {
       });
   }
 
-  getStage = (stage) => {
+  setStage = (stage) => {
     let stages = this.state.children;
     stages.push(stage);
 
     this.setState({
       children: stages
     });
+  }
+
+  getStage(stageId) {
+    return this.state.children.filter(obj => {
+      return obj.state.id === stageId
+    })[0];
   }
 
   setSelected = (newElement) => {
@@ -57,26 +63,28 @@ class Content extends Component {
 
   handleKeyDown = (event) => {
     let currentSelect = this.state.selectedElement;
-    let idTicket, action, stage, newStageId;
+    let ticketId, action, stage, newStageId;
     if (currentSelect) {
       stage = currentSelect.state.column;
-      idTicket = currentSelect.state.id;
+      ticketId = currentSelect.state.id;
       switch(event.key) {
         case 'ArrowUp':
           action = RestProvider.WEIGHT_MOVE_UP;
-          this.updatePosition(idTicket, action, stage)
+          this.updatePosition(ticketId, action, stage)
           break;
         case 'ArrowDown':
           action = RestProvider.WEIGHT_MOVE_DOWN;
-          this.updatePosition(idTicket, action, stage)
+          this.updatePosition(ticketId, action, stage)
           break;
         case 'ArrowRight':
           newStageId = stage.state.id + 1;
-          this.updateTicketColumn(idTicket, newStageId, stage)
+          this.setMoveDuplicate(ticketId, newStageId);
+          this.updateTicketColumn(ticketId, newStageId, stage.state.id)
           break;
         case 'ArrowLeft':
           newStageId = stage.state.id - 1;
-          this.updateTicketColumn(idTicket, newStageId, stage)
+          this.setMoveDuplicate(ticketId, newStageId);
+          this.updateTicketColumn(ticketId, newStageId, stage.state.id)
           break;
         default:
           break;
@@ -100,35 +108,58 @@ class Content extends Component {
       });
   }
 
-  updateTicketColumn(idTicket, newColumnId, column) {
+  updateTicketColumn = (idTicket, newColumnId, oldColumnId) =>{
     let actionType = RestProvider.STAGE_CHANGE;
-    let idColumn = column.props.idColumn;
 
-    let newColumn = this.state.children.filter(obj => {
-      return obj.state.id === newColumnId
-    })[0];
+    let newColumn = this.getStage(newColumnId);
+    let oldColumn = this.getStage(oldColumnId);
 
     if (newColumn) {
-      RestProvider.updateTicketPosition(idTicket, actionType, newColumnId, idColumn)
+      RestProvider.updateTicketPosition(idTicket, actionType, newColumnId, oldColumnId)
         .then((condition) => {
           if (condition) {
-            this.state.selectedElement.state.column = newColumn;
-            RestProvider.getColumnTickets(idColumn)
-              .then((tickets) => {
-                column.setState({
-                  isLoaded: true,
-                  items: tickets
-                });
-              });
+            if (this.state.selectedElement) {
+              this.state.selectedElement.state.column = newColumn;
+            }
+
+            oldColumn.getTickets();
+
             RestProvider.getColumnTickets(newColumnId)
               .then((tickets) => {
                 newColumn.setState({
                   isLoaded: true,
                   items: tickets
                 });
+
+                this.removeElementsByClass("drop-clone");
               });
           }
         });
+    }
+  }
+
+  setMoveDuplicate = (ticketId, stageId) => {
+    let stageDomId = "column-box-" + stageId;
+    let ticketDomId = "ticket-" + ticketId;
+
+    let stage = document.getElementById(stageDomId);
+    let ticket = document.getElementById(ticketDomId);
+
+    if (stage && ticket) {
+      let ticketClone = ticket.cloneNode(true);
+      ticketClone.id += "-clone";
+      ticketClone.classList.add("drop-clone");
+
+      stage.insertAdjacentElement('afterbegin', ticketClone);
+
+      ticket.style.display = 'none';
+    }
+  }
+
+  removeElementsByClass(className) {
+    let elements = document.getElementsByClassName(className);
+    while(elements.length > 0){
+      elements[0].parentNode.removeChild(elements[0]);
     }
   }
 
@@ -152,8 +183,11 @@ class Content extends Component {
                     selected={this.state.selectedElement}
                     onShowPopup={this.props.onShowPopup}
                     onClosePopup={this.props.onClosePopup}
+                    updateTicketColumn={this.updateTicketColumn}
                     setSelected={this.setSelected}
-                    getStage={this.getStage}
+                    setStage={this.setStage}
+                    neighbours={this.state.children}
+                    setMoveDuplicate={this.setMoveDuplicate}
                   />
                 </div>
               ))}
