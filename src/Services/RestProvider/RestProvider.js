@@ -2,7 +2,7 @@ import React from '../../../node_modules/react/index';
 import axios from 'axios'
 
 
-let urlApi = 'http://react-rest.loc/';
+let urlApi = 'http://localhost:8000/';
 
 
 class RestProvider extends React.Component {
@@ -31,9 +31,6 @@ class RestProvider extends React.Component {
         }
       })
       .then(res => {
-        if (res.status !== 200) {
-          console.log(res);
-        }
         return [];
       })
   }
@@ -48,10 +45,6 @@ class RestProvider extends React.Component {
       }
     })
       .then(res => {
-        console.log(res);
-        if (res.status !== 200) {
-          console.log(res);
-        }
       })
   }
 
@@ -71,7 +64,6 @@ class RestProvider extends React.Component {
     })
       .then(res => {
         if (res.status !== 200) {
-          console.log(res);
           return false;
         } else {
           return true;
@@ -90,7 +82,6 @@ class RestProvider extends React.Component {
     })
       .then(res => {
         if (res.status !== 200) {
-          console.log(res);
         }
         return [];
       })
@@ -108,7 +99,6 @@ class RestProvider extends React.Component {
       .then(res => {
         tickets = res.data;
         if( typeof tickets.error !== 'undefined' ){
-          console.log(res);
           return [];
         } else {
           return tickets;
@@ -128,7 +118,6 @@ class RestProvider extends React.Component {
       .then(res => {
         stages = res.data;
         if( typeof stages.error !== 'undefined' ){
-          console.log(res);
           return [];
         } else {
           return stages;
@@ -152,7 +141,6 @@ class RestProvider extends React.Component {
       .then(res => {
         let data = res.data;
         if( typeof data.error !== 'undefined' ){
-          console.log(res);
           return [];
         } else {
           return data;

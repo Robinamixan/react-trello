@@ -52,7 +52,6 @@ class Content extends Component {
       this.setState({
         selectedElement: newElement
       });
-      console.log(newElement);
     }
   }
 
@@ -62,7 +61,6 @@ class Content extends Component {
     if (currentSelect) {
       stage = currentSelect.state.column;
       idTicket = currentSelect.state.id;
-      console.log(currentSelect);
       switch(event.key) {
         case 'ArrowUp':
           action = RestProvider.WEIGHT_MOVE_UP;

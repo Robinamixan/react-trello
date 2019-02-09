@@ -24,9 +24,9 @@ class Ticket extends Component {
     }
 
     if (this.props.selected) {
-      console.log(this.props.selected.state.id === this.props.id);
       if (this.props.selected.state.id === this.props.id) {
         selected = true;
+        this.props.setSelected(this);
       }
     }
 
@@ -113,8 +113,6 @@ class Ticket extends Component {
   }
 
   selectTicket(event) {
-    let ticket = event.target.closest(".ticket");
-
     this.setState({
       selected: !this.state.selected,
     });
