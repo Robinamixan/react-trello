@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,iBAAkB;EAChB,OAAO,EAAE,GAAG;EAEZ,+BAAc;IACZ,aAAa,EAAE,GAAG;IAClB,YAAY,EAAE,GAAG",
+"sources": ["TicketForm.scss"],
+"names": [],
+"file": "TicketForm.css"
+}

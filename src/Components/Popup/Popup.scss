@@ -1,0 +1,19 @@
+#popup-main {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#popup-contain {
+  background-color: #ffffff;
+  padding: 5px;
+
+  .popup-header {
+    text-align: right;
+  }
+}

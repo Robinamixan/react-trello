@@ -1,0 +1,27 @@
+.ticket {
+  padding: 5px;
+  margin: 3px 3px;
+  border: 2px solid black;
+  border-radius: 10px;
+  background-color: #ffffff; }
+  .ticket .manage-panel {
+    padding-right: 5px;
+    padding-left: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end; }
+    .ticket .manage-panel .ticket-title {
+      text-align: left; }
+    .ticket .manage-panel .edit-button {
+      visibility: hidden; }
+  .ticket .main-content {
+    border-top: 1px solid black;
+    margin-top: 3px; }
+
+.ticket:hover > .manage-panel > .edit-button {
+  visibility: visible; }
+
+.ticket.selected {
+  border: 3px solid limegreen; }
+
+/*# sourceMappingURL=Tickets.css.map */
