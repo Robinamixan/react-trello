@@ -11,16 +11,9 @@ class RestProvider extends React.Component {
   static WEIGHT_MOVE_DOWN = 'down';
   static STAGE_CHANGE = '2';
 
-  constructor(){
-    super();
-
-    this.url_api = 'http://react-rest.loc/';
-  }
-
-  static addTicket(ticket={}, idColumn=1) {
-    let url = urlApi + 'rest/api/cards/add';
+  static addTicket(ticket={}, idColumn) {
+    let url = urlApi + 'api/v1/stages/' + idColumn + '/cards/add';
     let data = JSON.stringify({
-      idColumn: idColumn,
       title: ticket.title,
       content: ticket.content,
     })
@@ -35,8 +28,8 @@ class RestProvider extends React.Component {
       })
   }
 
-  static updateTicket(ticket) {
-    let url = urlApi + 'rest/api/cards/update';
+  static updateTicket(ticket, idColumn) {
+    let url = urlApi + 'api/v1/stages/' + idColumn + '/cards/' + ticket.idTicket + '/update';
     let data = JSON.stringify(ticket)
 
     axios.post(url, data, {
@@ -45,16 +38,19 @@ class RestProvider extends React.Component {
       }
     })
       .then(res => {
+        return []
+      })
+      .catch(error => {
+        console.log(error.response);
+        return []
       })
   }
 
   static updateTicketPosition(idTicket, actionType, action, idColumn = null) {
-    let url = urlApi + 'rest/api/cards/update/position';
+    let url = urlApi + 'api/v1/stages/' + idColumn + '/cards/' + idTicket + '/update/position';
     let data = JSON.stringify({
-      idTicket: idTicket,
       actionType: actionType,
       action: action,
-      idColumn: idColumn,
     })
 
     return axios.post(url, data, {
@@ -71,8 +67,8 @@ class RestProvider extends React.Component {
       })
   }
 
-  static deleteTicket(ticket={}) {
-    let url = urlApi + 'rest/api/cards/delete';
+  static deleteTicket(ticket, idColumn) {
+    let url = urlApi + 'api/v1/stages/' + idColumn + '/cards/' + ticket.idTicket + '/delete';
     let data = JSON.stringify(ticket)
 
     return axios.post(url, data, {
@@ -88,7 +84,7 @@ class RestProvider extends React.Component {
   }
 
   static getColumnTickets(id) {
-    let url = urlApi + 'rest/api/column/' + id + '/cards';
+    let url = urlApi + 'api/v1/stages/' + id + '/cards';
     let tickets = [];
 
     return axios.get(url, {
@@ -97,6 +93,7 @@ class RestProvider extends React.Component {
       }
     })
       .then(res => {
+
         tickets = res.data;
         if( typeof tickets.error !== 'undefined' ){
           return [];
@@ -104,10 +101,14 @@ class RestProvider extends React.Component {
           return tickets;
         }
       })
+      .catch(error => {
+        console.log(error.response);
+        return [];
+      })
   }
 
   static getColumns() {
-    let url = urlApi + 'rest/api/stages';
+    let url = urlApi + 'api/v1/stages';
     let stages = [];
 
     return axios.get(url, {
@@ -125,12 +126,12 @@ class RestProvider extends React.Component {
       })
   }
 
-  static addColumn() {
+  static addColumn($title) {
     let idBoard = 1;
-    let url = urlApi + 'rest/api/stages/add';
+    let url = urlApi + 'api/v1/stages/add';
     let data = JSON.stringify({
       idBoard: idBoard,
-      title: 'New Column'
+      title: $title
     })
 
     axios.post(url, data, {
@@ -146,10 +147,14 @@ class RestProvider extends React.Component {
           return data;
         }
       })
+      .catch(error => {
+        console.log(error.response);
+        return [];
+      })
   }
 
   ping() {
-    let url = this.url_api + 'ping';
+    let url = urlApi + 'api/v1/status';
 
     axios.get(url, {
       headers: {

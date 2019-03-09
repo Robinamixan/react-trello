@@ -107,7 +107,7 @@ class Ticket extends Component {
       content: newText,
     };
 
-    RestProvider.updateTicket(ticket);
+    RestProvider.updateTicket(ticket, this.state.column.state.id);
   }
 
   selectTicket(event) {

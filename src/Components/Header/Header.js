@@ -26,7 +26,7 @@ class Header extends Component {
   }
 
   newColumn() {
-    RestProvider.addColumn();
+    RestProvider.addColumn('New Column');
   }
 }
 

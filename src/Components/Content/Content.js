@@ -77,12 +77,12 @@ class Content extends Component {
           this.updatePosition(ticketId, action, stage)
           break;
         case 'ArrowRight':
-          newStageId = stage.state.id + 1;
+          newStageId = parseInt(stage.state.id) + 1;
           this.setMoveDuplicate(ticketId, newStageId);
           this.updateTicketColumn(ticketId, newStageId, stage.state.id)
           break;
         case 'ArrowLeft':
-          newStageId = stage.state.id - 1;
+          newStageId = parseInt(stage.state.id) - 1;
           this.setMoveDuplicate(ticketId, newStageId);
           this.updateTicketColumn(ticketId, newStageId, stage.state.id)
           break;
@@ -111,8 +111,8 @@ class Content extends Component {
   updateTicketColumn = (idTicket, newColumnId, oldColumnId) =>{
     let actionType = RestProvider.STAGE_CHANGE;
 
-    let newColumn = this.getStage(newColumnId);
-    let oldColumn = this.getStage(oldColumnId);
+    let newColumn = this.getStage(newColumnId + '');
+    let oldColumn = this.getStage(oldColumnId + '');
 
     if (newColumn) {
       RestProvider.updateTicketPosition(idTicket, actionType, newColumnId, oldColumnId)

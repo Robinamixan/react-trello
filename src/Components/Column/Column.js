@@ -132,7 +132,7 @@ class Column extends Component {
       idTicket: idTicket,
     }
 
-    RestProvider.deleteTicket(ticket)
+    RestProvider.deleteTicket(ticket, this.state.id)
       .then(() => {
         this.setState({
           isLoaded: false,

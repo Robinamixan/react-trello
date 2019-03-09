@@ -7,7 +7,7 @@ class TicketForm extends Component {
     let title = ReactDOM.findDOMNode(this.refs.ticketTitleInput).value;
     let text = ReactDOM.findDOMNode(this.refs.ticketTextInput).value;
 
-    this.props.onSubmitEvent(title, text);
+    this.props.onSaveEvent(title, text);
     this.props.onClosePopup()
   }
 
